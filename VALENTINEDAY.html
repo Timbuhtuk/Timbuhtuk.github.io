@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="pAnk">
+    <meta name="description" content="Would she say yes?">
+    <style>
+        body {
+            margin: 0 !important;
+            width: 100vw !important;
+            height: 100vh !important;
+            display: flex !important;
+            flex-direction: column !important;
+            align-content: center !important;
+            justify-content: center !important;
+            overflow: hidden;
+
+        }
+        .bg {
+            width: 200dvw !important;
+            height: 200dvh !important;
+            top: -100dvh !important;
+            left: -100dvw !important;
+            position: fixed !important;
+            background: linear-gradient(-45deg, #ff0000 0%, #ca42fa 100%) !important;
+            animation: moveBg 10s linear infinite !important;
+        }
+
+        .trigger-btn {
+            border-radius: 15px !important;
+            position: absolute !important;
+            word-wrap: break-word !important;
+            overflow-wrap: break-word !important;
+            background-color: rgba(30, 20, 34, 0) !important;
+            border-color: #000005 !important;
+            color: #000005 !important;
+            border-style: dotted !important;
+            border-width: 5px !important;
+            z-index: 1 !important;
+            padding: 15px !important;
+            animation: shakeTriggerBtn 4s linear infinite;
+            pointer-events: auto !important;
+        }
+        .svg-icon {
+            position: fixed !important;
+            top: 110%;
+            z-index: 10 !important;
+            animation: moveHearts 2s linear forwards !important;
+        }
+        .text{
+            background-color: #fffffd !important;
+            color: #000001 !important;
+            border-radius: 10px !important;
+            padding: 30px !important;
+            position: absolute !important;
+            text-align: center !important;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5) !important;
+
+            top: 50% !important;
+            left: 50% !important;
+            transform: translate(-50%, -50%);
+            font-size: 3vh !important;
+            opacity: 0;
+
+        }
+        .hidden {
+            animation: hide-sm-100 1s forwards;
+        }
+        .show{
+            animation: show-rd-btn-sm 1s forwards;
+        }
+        @media (orientation: portrait) {
+            .trigger-btn {
+                width: 40dvw;
+                font-size: 3vh;
+                left: calc(50% - 20dvw);
+                top: calc(50% - 2.5dvh);
+            }
+            .svg-icon{
+                width: 9vh;
+                height: 9vh;
+            }
+            .text{
+                font-size: 3vh !important;
+            }
+        }
+        @media (orientation: landscape) {
+            .trigger-btn {
+                width: 40dvw;
+                font-size: 6dvh;
+                left: calc(50% - 20dvw);
+                top: calc(50% - 7.5dvh);
+            }
+            .svg-icon{
+                width: 12dvh;
+                height: 12dvh;
+            }
+            .text{
+                font-size: 3dvw !important;
+            }
+        }
+        @keyframes moveBg {
+            0% {
+                transform: translate(0%, 0%);
+            }
+            50% {
+                transform: translate(50%, 50%);
+            }
+            100% {
+                transform: translate(0%, 0%);
+            }
+        }
+        @keyframes shakeTriggerBtn {
+            40% {
+                transform: rotate(0deg);
+            }
+            45% {
+                transform: rotate(3deg);
+            }
+            50% {
+                transform: rotate(-2deg);
+            }
+            55% {
+                transform: rotate(2deg);
+            }
+            60% {
+                transform: rotate(-1deg);
+            }
+            65% {
+                transform: rotate(0deg);
+            }
+        }
+        @keyframes moveHearts{
+            0% {
+                opacity: 1;
+            }
+
+            100% {
+                transform: translate(0%, -2000%);
+                opacity: 0;
+            }
+        }
+
+
+        @keyframes show-rd-btn-sm {
+            0% {
+                transform: translate(-50%, -50%) translateY(10dvh);
+                opacity: 0;
+            }
+            100% {
+                transform: translate(-50%, -50%) translateY(0);
+                opacity: 1;
+            }
+        }
+        @keyframes hide-sm-100 {
+            0% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-50%);
+                opacity: 0;
+            }
+        }
+
+
+    </style>
+    <script>
+
+        function triggerBtnClick() {
+            createSVGElements(333);
+            setTimeout(swapElements, 700);
+            setTimeout(clearSvgElements, 2100);
+            document.querySelector(".trigger-btn").style.display = "none";
+        }
+
+        function createSVGElements(count) {
+            for (let i = 0; i < count; i++) {
+                const svgElement = document.createElement("div");
+                svgElement.classList.add("svg-icon");
+                svgElement.innerHTML = `
+                    <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M1.24264 8.24264L8 15L14.7574 8.24264C15.553 7.44699 16 6.36786 16 5.24264V5.05234C16 2.8143 14.1857 1 11.9477 1C10.7166 1 9.55233 1.55959 8.78331 2.52086L8 3.5L7.21669 2.52086C6.44767 1.55959 5.28338 1 4.05234 1C1.8143 1 0 2.8143 0 5.05234V5.24264C0 6.36786 0.44699 7.44699 1.24264 8.24264Z" fill="${getRandomColor()}"></path>
+                    </svg>
+                `;
+                svgElement.style.left = `${Math.random() * 100}vw`;
+                svgElement.style.top = `${(Math.random() + 1) * 100}vh`;
+                document.body.appendChild(svgElement);
+            }
+        }
+        function clearSvgElements() {
+            const svgElements = document.querySelectorAll(".svg-icon");
+            svgElements.forEach((svgElement) => {
+                svgElement.remove();
+            });
+        }
+
+        function getRandomColor() {
+            return `hsl(${Math.random() * 360}, 100%, 50%)`;
+        }
+        function swapElements() {
+            document.querySelector(".trigger-btn").classList.add("hidden");
+            document.querySelector(".text").classList.add("show");
+        }
+
+    </script>
+
+</head>
+<body>
+<div class="bg"></div>
+<button class="trigger-btn" onclick="triggerBtnClick()">ТЫКНИ МЕНЯ!</button>
+<div class="text">
+    С днем святого Валентина! Что скажешь насчет быть моей валентинкой? <br>
+</div>
+</body>
+</html>
